@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import HomePage from "./pages/Homepage";
+import HomePage from "./pages/HomePage";
 import TradePage from "./pages/TradePage";
 import CashPage from "./pages/CashPage";
 import SecurityPage from "./pages/SecurityPage";
@@ -9,7 +9,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <Header />
-
       <main style={{ padding: "20px" }}>
         <Routes>
           <Route path="/" element={<HomePage />} />

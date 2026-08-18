@@ -9,6 +9,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Header />
+
       <main style={{ padding: "20px" }}>
         <Routes>
           <Route path="/" element={<HomePage />} />

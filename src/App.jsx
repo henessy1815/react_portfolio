@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import HomePage from "./pages/Homepage";
-import TradePage from "./pages/Tradepage";
+import TradePage from "./pages/TradePage";
 import CashPage from "./pages/CashPage";
 import SecurityPage from "./pages/SecurityPage";
 

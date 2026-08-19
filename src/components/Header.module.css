@@ -1,0 +1,91 @@
+/* 최상단 바 전체 (배경 및 블러) */
+.headerContainer {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: rgba(244, 242, 251, 0.85);
+  backdrop-filter: blur(12px);
+  padding: 16px 0;
+}
+
+/* 본문(.home-container)과 동일한 최대 너비 및 여백을 공유하는 내부 래퍼 */
+.innerWrapper {
+  width: 100%;
+  max-width: 1400px; /* 본문 max-width와 동일하게 설정 */
+  margin: 0 auto;
+  padding: 0 32px; /* 본문 좌우 여백과 동일 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 좌측 로고 */
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #1a1726;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 중앙 흰색 플로팅 캡슐 메뉴 */
+.navCapsule {
+  background-color: #ffffff;
+  padding: 8px 24px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.navLink {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #5f5b6e;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: #1a1726;
+}
+
+/* 우측 돋보기 + 다운로드 버튼 */
+.rightActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.searchBtn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  font-size: 1rem;
+}
+
+.downloadBtn {
+  background-color: #9a89ff;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.downloadBtn:hover {
+  opacity: 0.9;
+}

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/HomePage/HomePage";
 import TradePage from "./pages/TradePage";
 import CashPage from "./pages/CashPage";
 import SecurityPage from "./pages/SecurityPage";

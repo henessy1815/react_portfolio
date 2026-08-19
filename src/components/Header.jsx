@@ -1,22 +1,36 @@
 import { Link } from "react-router-dom";
+import styles from "./Header.module.css";
 
 export default function Header() {
   return (
-    <header
-      style={{
-        display: "flex",
-        gap: "20px",
-        padding: "20px",
-        borderBottom: "1px solid #333",
-      }}
-    >
-      <strong>Phantom</strong>
-      <nav style={{ display: "flex", gap: "15px" }}>
-        <Link to="/">Home</Link>
-        <Link to="/trade">Trade</Link>
-        <Link to="/cash">Cash</Link>
-        <Link to="/security">Security</Link>
-      </nav>
+    <header className={styles.headerContainer}>
+      <div className={styles.innerWrapper}>
+        {/* 1. 로고 */}
+        <Link to="/" className={styles.logo}>
+          phantom
+        </Link>
+
+        {/* 2. 중앙 캡슐 네비게이션 */}
+        <nav className={styles.navCapsule}>
+          <Link to="/trade" className={styles.navLink}>
+            Trade
+          </Link>
+          <Link to="/cash" className={styles.navLink}>
+            Cash
+          </Link>
+          <Link to="/security" className={styles.navLink}>
+            Security
+          </Link>
+        </nav>
+
+        {/* 3. 우측 돋보기 + 다운로드 버튼 */}
+        <div className={styles.rightActions}>
+          <button className={styles.searchBtn} aria-label="Search">
+            🔍
+          </button>
+          <button className={styles.downloadBtn}>Download</button>
+        </div>
+      </div>
     </header>
   );
 }

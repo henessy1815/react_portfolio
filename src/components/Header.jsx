@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import GhostIcon from "./GhostIcon";
 import styles from "./Header.module.css";
 
 export default function Header() {
@@ -7,7 +8,8 @@ export default function Header() {
       <div className={styles.innerWrapper}>
         {/* 1. 로고 */}
         <Link to="/" className={styles.logo}>
-          phantom
+          <GhostIcon width={60} height={51} color="#201d2d" />
+          <span className={styles.logoText}>phantom</span>
         </Link>
 
         {/* 2. 중앙 캡슐 네비게이션 */}

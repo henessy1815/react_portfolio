@@ -91,23 +91,22 @@
   padding-top: 40px;
 }
 
+/* flex 제거 -> 텍스트와 유령 아이콘이 같은 줄에 인라인으로 렌더링 */
 .section-title {
-  font-size: 5.2rem; /* 타이틀 크기 확대 */
+  font-size: 5.2rem;
   font-weight: 800;
   letter-spacing: -2px;
-  line-height: 1.12;
+  line-height: 1.15;
   color: #221f33;
   margin-bottom: 28px;
+  text-align: center;
 }
 
-.ghost-icon-badge {
-  background-color: #ab9ff2;
-  width: 68px;
-  height: 58px;
-  border-radius: 50% 50% 18px 18px;
+/* 유령 아이콘 수직 중심선 보정 */
+.section-title svg {
+  vertical-align: -0.1em;
+  margin: 0 0.1em;
   display: inline-block;
-  vertical-align: middle;
-  margin: 0 10px;
 }
 
 .see-more-link {

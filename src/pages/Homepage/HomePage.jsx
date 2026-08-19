@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import CardsSlider from "../../components/CardsSlider";
+import GhostIcon from "../../components/GhostIcon";
 import { SECTIONS_DATA } from "../../data/homeSections";
 import "./HomePage.css";
 
@@ -46,7 +47,7 @@ export default function HomePage() {
           <h2 className="section-title">
             Trading tools
             <br />
-            for <span className="ghost-icon-badge"></span> everyone
+            for <GhostIcon width={120} height={100} color="#AB9FF2" /> everyone
           </h2>
           <Link to="/trade" className="see-more-link">
             See more ↗
@@ -57,7 +58,8 @@ export default function HomePage() {
         {/* 2. Move Money (Cash) 섹션 */}
         <div className="section-headline">
           <h2 className="section-title">
-            Spend, Send, & <span className="ghost-icon-badge"></span> Save
+            Spend, Send, &{" "}
+            <GhostIcon width={120} height={100} color="#AB9FF2" /> Save
           </h2>
           <Link to="/cash" className="see-more-link">
             See more ↗
@@ -73,7 +75,8 @@ export default function HomePage() {
             <h2 className="section-title">
               Controlled by you,
               <br />
-              secured <span className="ghost-icon-badge"></span> by us
+              secured <GhostIcon width={120} height={100} color="#AB9FF2" /> by
+              us
             </h2>
             <Link to="/security" className="see-more-link">
               See more ↗
@@ -93,7 +96,8 @@ export default function HomePage() {
         <h2 className="final-cta-title">
           Get started.
           <br />
-          Download <span className="ghost-icon-badge"></span> Phantom.
+          Download <GhostIcon width={130} height={110} color="#FFFFFF" />{" "}
+          Phantom.
         </h2>
         <button className="final-cta-btn">
           <span>📱</span> Download Phantom

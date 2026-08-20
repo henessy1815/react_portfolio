@@ -1,13 +1,19 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import CardsSlider from "../../components/CardsSlider";
 import GhostIcon from "../../components/GhostIcon";
 import { SECTIONS_DATA } from "../../data/homeSections";
 import "./HomePage.css";
+import qrImage from "../../../public/phantom-qr.png";
 
 export default function HomePage() {
   const tradingData = SECTIONS_DATA.find((s) => s.id === "trading");
   const cashData = SECTIONS_DATA.find((s) => s.id === "cash");
   const securityData = SECTIONS_DATA.find((s) => s.id === "security");
+
+  // 두 버튼의 QR 팝오버 상태를 각각 선언
+  const [isQrOpen, setIsQrOpen] = useState(false);
+  const [isCtaQrOpen, setIsCtaQrOpen] = useState(false);
 
   return (
     <div className="home-page">
@@ -36,9 +42,65 @@ export default function HomePage() {
               <br />
               and more
             </h1>
-            <button className="hero-btn">
-              <span>📱</span> Download Phantom
-            </button>
+
+            {/* 버튼 & QR 팝오버 래퍼 */}
+            <div className="hero-btn-wrapper">
+              {/* QR 코드 팝오버 */}
+              {isQrOpen && (
+                <div className="qr-popover">
+                  <div className="qr-code-box">
+                    {/* 팬텀 실제 QR 이미지 URL (또는 커스텀 이미지) */}
+                    <img
+                      src={qrImage}
+                      alt="Phantom Download QR"
+                      className="qr-img"
+                    />
+                  </div>
+                  <p className="qr-caption">
+                    Scan the QR to
+                    <br />
+                    download the app to
+                    <br />
+                    your phone
+                  </p>
+                </div>
+              )}
+
+              {/* 다운로드 버튼 (클릭 시 토글) */}
+              <button
+                className="hero-btn"
+                onClick={() => setIsQrOpen((prev) => !prev)}
+              >
+                <svg
+                  className="btn-icon"
+                  width="16"
+                  height="20"
+                  viewBox="0 0 16 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="1.25"
+                    y="1.25"
+                    width="13.5"
+                    height="17.5"
+                    rx="3.75"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  />
+                  <line
+                    x1="6.5"
+                    y1="15.5"
+                    x2="9.5"
+                    y2="15.5"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <span>Download Phantom</span>
+              </button>
+            </div>
           </div>
         </section>
 
@@ -50,7 +112,7 @@ export default function HomePage() {
             for <GhostIcon width={120} height={100} color="#AB9FF2" /> everyone
           </h2>
           <Link to="/trade" className="see-more-link">
-            See more ↗
+            See more{"\u00A0\u00A0"}↗
           </Link>
         </div>
         <CardsSlider sectionData={tradingData} />
@@ -62,7 +124,7 @@ export default function HomePage() {
             <GhostIcon width={120} height={100} color="#AB9FF2" /> Save
           </h2>
           <Link to="/cash" className="see-more-link">
-            See more ↗
+            See more{"\u00A0\u00A0"}↗
           </Link>
         </div>
         <CardsSlider sectionData={cashData} />
@@ -79,7 +141,7 @@ export default function HomePage() {
               us
             </h2>
             <Link to="/security" className="see-more-link">
-              See more ↗
+              See more{"\u00A0\u00A0"}↗
             </Link>
           </div>
           <CardsSlider sectionData={securityData} />
@@ -99,9 +161,61 @@ export default function HomePage() {
           Download <GhostIcon width={130} height={110} color="#FFFFFF" />{" "}
           Phantom.
         </h2>
-        <button className="final-cta-btn">
-          <span>📱</span> Download Phantom
-        </button>
+        {/* hero-btn으로 통일 및 QR 팝오버 래퍼 적용 */}
+        <div className="hero-btn-wrapper">
+          {isCtaQrOpen && (
+            <div className="qr-popover">
+              <div className="qr-code-box">
+                <img
+                  src={qrImage}
+                  alt="Phantom Download QR"
+                  className="qr-img"
+                />
+              </div>
+              <p className="qr-caption">
+                Scan the QR to
+                <br />
+                download the app to
+                <br />
+                your phone
+              </p>
+            </div>
+          )}
+
+          <button
+            className="final-cta-btn"
+            onClick={() => setIsCtaQrOpen((prev) => !prev)}
+          >
+            <svg
+              className="btn-icon"
+              width="16"
+              height="20"
+              viewBox="0 0 16 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="1.25"
+                y="1.25"
+                width="13.5"
+                height="17.5"
+                rx="3.75"
+                stroke="currentColor"
+                strokeWidth="1.8"
+              />
+              <line
+                x1="6.5"
+                y1="15.5"
+                x2="9.5"
+                y2="15.5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+            </svg>
+            <span>Download Phantom</span>
+          </button>
+        </div>
       </section>
     </div>
   );

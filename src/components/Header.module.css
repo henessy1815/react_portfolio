@@ -22,13 +22,19 @@
 
 /* 좌측 로고 */
 .logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: #1a1726;
   display: flex;
   align-items: center;
-  gap: 8px;
+  text-decoration: none;
+  color: #38305a; /* SVG fill="currentColor"에 전달될 색상 */
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.85;
+}
+
+.logo svg {
+  display: block;
 }
 
 /* 중앙 흰색 플로팅 캡슐 메뉴 */
@@ -43,9 +49,9 @@
 }
 
 .navLink {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #5f5b6e;
+  font-size: 16px;
+  font-weight: 400;
+  color: #3c315b;
   transition: color 0.2s ease;
 }
 
@@ -75,13 +81,13 @@
 }
 
 .downloadBtn {
-  background-color: #9a89ff;
-  color: #ffffff;
+  background-color: #ab9ff2;
+  color: #3c315b;
   border: none;
   padding: 12px 24px;
   border-radius: 9999px;
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 400;
+  font-size: 16px;
   cursor: pointer;
   transition: opacity 0.2s;
 }

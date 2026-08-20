@@ -3,97 +3,171 @@
   margin-bottom: 180px; /* 섹션 간격 확보 */
 }
 
+/* 상단 뱃지 & 화살표 버튼 영역: 부모 컨테이너 너비 유지 */
 .slider-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 28px;
-  padding: 0 8px;
+  margin-bottom: 56px;
+  padding: 0 4px;
 }
 
 .slider-badge {
   background: #ffffff;
-  padding: 10px 22px;
+  padding: 9px 20px;
   border-radius: 9999px;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.02rem;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
+/* Security 섹션 다크 뱃지 */
 .slider-badge.dark-badge {
-  background: rgba(255, 255, 255, 0.15);
+  background: #393452; /* 다크 테마 배경에 어울리는 소프트 다크 퍼플 */
   color: #ffffff;
+  box-shadow: none;
 }
 
+.slider-badge .badge-icon {
+  display: block;
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+/* 버튼 컨테이너: 가로 나란히 정렬 */
+.slider-nav-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 개별 화살표 원형 버튼 */
 .nav-arrow-btn {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: none;
   background-color: #ffffff;
+  color: #38305a;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    opacity 0.2s ease;
 }
 
+.nav-arrow-btn:hover {
+  background-color: #e2dffe; /* 호버 시 원본 특유의 연보라색 */
+  transform: scale(1.05);
+}
+
+.nav-arrow-btn svg {
+  display: block;
+}
+
+/* Security 섹션 다크 모드 버튼 */
 .nav-arrow-btn.dark-arrow {
-  background: rgba(255, 255, 255, 0.15);
+  background-color: #393452;
   color: #ffffff;
+  box-shadow: none;
 }
 
-/* 카드 가로 트랙 */
+.nav-arrow-btn.dark-arrow:hover {
+  background-color: #ab9ff2;
+}
+
+/* 카드 트랙: 컨테이너를 뚫고 화면 좌우 끝(100vw)까지 확장 */
 .cards-track {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw; /* 뷰포트 전체 너비로 탈출 */
   display: flex;
   gap: 28px;
   overflow-x: auto;
-  scroll-behavior: smooth;
-  padding: 10px 4px 30px;
   scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+
+  /* 첫 번째 카드가 상단 텍스트/뱃지 시작선에 정렬되도록 좌우 여백 설정 */
+  /* (1200px 대신 프로젝트의 home-container max-width 값을 입력하세요) */
+  padding: 10px max(24px, calc((100vw - 1400px) / 2 + 16px)) 30px;
+  box-sizing: border-box;
 }
 
 .cards-track::-webkit-scrollbar {
   display: none;
 }
 
-/* 개별 카드 확대 */
+/* 드래그 중일 때 */
+.cards-track.is-dragging {
+  cursor: grabbing; /* 쥐는 손 모양 커서 */
+  scroll-behavior: auto; /* 드래그 중 즉각적인 반응을 위해 부드러운 스크롤 해제 */
+}
+
+/* 개별 카드 컨테이너 */
 .feature-card {
-  flex: 0 0 460px; /* 기존 380px -> 460px 로 확대 */
-  height: 620px; /* 기존 520px -> 620px 로 확대 */
+  flex: 0 0 460px;
+  height: 620px;
   border-radius: 36px;
-  padding: 40px 36px;
+  padding: 44px 40px; /* 텍스트가 표시될 내부 여백 */
+  position: relative;
+  overflow: hidden; /* 둥근 테두리 밖으로 나가는 비디오 클리핑 */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+  justify-content: flex-start; /* 텍스트를 상단에 배치 */
+  user-select: none;
+
+  /* 부드러운 튀어오름과 회전 트랜지션 */
+  transition:
+    transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 0.35s ease;
+  will-change: transform;
+}
+
+/* 홀수 번째 카드 호버: 살짝 왼쪽으로 기울며 튀어오름 */
+.feature-card:hover {
+  transform: translateY(-8px) rotate(-0.8deg) scale(1.015);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* 짝수 번째 카드 호버: 살짝 오른쪽으로 기울며 자연스러운 리듬감 연출 */
+.feature-card:nth-child(even):hover {
+  transform: translateY(-8px) rotate(0.8deg) scale(1.015);
 }
 
 .card-title {
-  font-size: 2rem; /* 카드 텍스트 확대 */
-  font-weight: 700;
+  font-size: 2.2rem; /* 카드 텍스트 확대 */
+  font-weight: 400;
   line-height: 1.2;
   letter-spacing: -0.5px;
   z-index: 2;
 }
 
+/* 카드 전체를 꽉 채우는 배경 비디오 레이어 */
 .card-video-box {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 400px; /* 영상 영역 확대 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
+  height: 100%;
+  z-index: 1; /* 비디오를 바닥에 배치 */
 }
 
 .card-video {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover; /* 카드 면적 100%를 빈틈없이 꽉 채움 */
+  object-position: center; /* 영상 중심 정렬 */
+  display: block;
+  pointer-events: none; /* 비디오 기본 드래그 동작 차단 */
 }

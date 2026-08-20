@@ -1,15 +1,64 @@
+/* 1. Phantom 웹폰트 정의 (Regular 단일 서체) */
+@font-face {
+  font-family: "Phantom";
+  src: url("/fonts/Phantom-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 2. 전역 변수 설정 */
+:root {
+  --bg: #f4f2fb;
+  --text: #221f33;
+  --font-main:
+    "Phantom", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* 3. 기본 리셋 */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* 4. 전역 본문 스타일 */
 body {
-  background-color: #f4f2fb;
-  color: #221f33;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-main);
+  font-size: 17px; /* 팬텀 기본 본문 크기 */
+  line-height: 1.45;
+  letter-spacing: -0.022em; /* 팬텀 특유의 본문 자간 */
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 5. 폰트 상속 및 제목 레귤러 고정 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
+  font-weight: 400;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+/* 6. 레이아웃 & 링크 리셋 */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 a {

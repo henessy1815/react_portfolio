@@ -1,18 +1,24 @@
 export default function GhostIcon({
-  width = 72,
-  height = 65,
+  width = 110,
+  height = 80,
   color = "#AB9FF2",
   className = "",
+  style = {},
 }) {
   return (
     <svg
       width={width}
       height={height}
-      viewBox="0 0 200 180"
+      viewBox="38 40 120 100" /* 실제 유령 패스 크기에 맞춘 타이트한 뷰박스 */
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ verticalAlign: "middle", display: "inline-block" }}
+      style={{
+        verticalAlign: "middle",
+        display: "inline-block",
+        margin: "0 -4px" /* 글자와의 자연스러운 간격 밀착 */,
+        ...style,
+      }}
     >
       <path
         fillRule="evenodd"

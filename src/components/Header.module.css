@@ -1,12 +1,19 @@
 /* 최상단 바 전체 (배경 및 블러) */
 .headerContainer {
   width: 100%;
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 1000;
-  background-color: rgba(244, 242, 251, 0.85);
-  backdrop-filter: blur(12px);
+  left: 0; /* [수정: fixed 기준 좌측 0점 고정] */
   padding: 16px 0;
+  z-index: 9999;
+
+  /* [수정: 뒤 콘텐츠가 살짝 비치는 반투명 블러 효과 및 배경] */
+  background-color: rgba(244, 242, 251, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  padding: 18px 0;
+  transition: background-color 0.3s ease;
 }
 
 /* 본문(.home-container)과 동일한 최대 너비 및 여백을 공유하는 내부 래퍼 */
@@ -15,6 +22,7 @@
   max-width: 1400px; /* 본문 max-width와 동일하게 설정 */
   margin: 0 auto;
   padding: 0 32px; /* 본문 좌우 여백과 동일 */
+  box-sizing: border-box; /* [수정: 패딩으로 인한 너비 초과 방지] */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -90,6 +98,11 @@
   font-size: 16px;
   cursor: pointer;
   transition: opacity 0.2s;
+  /* [수정: a 태그로 교체된 경우를 대비한 스타일 보정] */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .downloadBtn:hover {

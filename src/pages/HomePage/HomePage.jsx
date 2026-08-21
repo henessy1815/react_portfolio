@@ -1,10 +1,40 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CardsSlider from "../../components/CardsSlider";
 import GhostIcon from "../../components/GhostIcon";
 import { SECTIONS_DATA } from "../../data/homeSections";
 import "./HomePage.css";
-import qrImage from "../../../public/phantom-qr.png";
+
+// 스크롤 진입 시 스르륵 나타나는 타이틀 전용 컴포넌트 추가
+function ScrollHeadline({ children }) {
+  const headlineRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.5 }, // 화면에 50% 보일 때 등장
+    );
+
+    if (headlineRef.current) {
+      observer.observe(headlineRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={headlineRef}
+      className={`section-headline ${isVisible ? "headline-visible" : "headline-hidden"}`}
+    >
+      {children}
+    </div>
+  );
+}
 
 export default function HomePage() {
   const tradingData = SECTIONS_DATA.find((s) => s.id === "trading");
@@ -15,11 +45,39 @@ export default function HomePage() {
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [isCtaQrOpen, setIsCtaQrOpen] = useState(false);
 
+  // [수정: 외부 클릭 감지를 위한 ref 선언]
+  const heroWrapperRef = useRef(null);
+  const ctaWrapperRef = useRef(null);
+
+  // [수정: 팝오버 외부 클릭 시 팝업 닫기 이벤트 리스너 등록]
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        heroWrapperRef.current &&
+        !heroWrapperRef.current.contains(e.target)
+      ) {
+        setIsQrOpen(false);
+      }
+      if (ctaWrapperRef.current && !ctaWrapperRef.current.contains(e.target)) {
+        setIsCtaQrOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="home-page">
-      <div className="home-container">
+      {/* ========================================================= */}
+      {/* 0. 메인 Hero 영역 (풀스크린 중앙 정렬 래퍼 추가) */}
+      {/* ========================================================= */}
+      {/* [수정 2] hero-section-wrapper로 감싸 전체 화면(100vh) 중앙 배치 */}
+      <section className="hero-section-wrapper">
         {/* 0. 메인 Hero 영역 (비디오 배경 포함) */}
-        <section className="hero-card">
+        <div className="hero-card">
           {/* 실제 팬텀 메인 배경 비디오 */}
           <video
             className="hero-bg-video"
@@ -43,15 +101,15 @@ export default function HomePage() {
               and more
             </h1>
 
-            {/* 버튼 & QR 팝오버 래퍼 */}
-            <div className="hero-btn-wrapper">
+            {/* 버튼 & QR 팝오버 래퍼 + ref={heroWrapperRef} 연결 */}
+            <div className="hero-btn-wrapper" ref={heroWrapperRef}>
               {/* QR 코드 팝오버 */}
               {isQrOpen && (
                 <div className="qr-popover">
                   <div className="qr-code-box">
-                    {/* 팬텀 실제 QR 이미지 URL (또는 커스텀 이미지) */}
+                    {/* [수정 1 반영] src를 "/phantom-qr.png"로 직접 지정 */}
                     <img
-                      src={qrImage}
+                      src="/phantom-qr.png"
                       alt="Phantom Download QR"
                       className="qr-img"
                     />
@@ -102,10 +160,13 @@ export default function HomePage() {
               </button>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* 1. Trading 섹션 */}
-        <div className="section-headline">
+      {/* 1. Trading 섹션 */}
+      {/* [수정 3] 타이틀 영역을 100vh 뷰포트 정중앙 래퍼로 교체 & GhostIcon 크기 최적화 */}
+      <section className="home-feature-section">
+        <ScrollHeadline>
           <h2 className="section-title">
             Trading tools
             <br />
@@ -114,11 +175,14 @@ export default function HomePage() {
           <Link to="/trade" className="see-more-link">
             See more{"\u00A0\u00A0"}↗
           </Link>
-        </div>
+        </ScrollHeadline>
         <CardsSlider sectionData={tradingData} />
+      </section>
 
-        {/* 2. Move Money (Cash) 섹션 */}
-        <div className="section-headline">
+      {/* 2. Move Money (Cash) 섹션 */}
+      {/* [수정 3] 동일하게 풀스크린 래퍼 적용 */}
+      <section className="home-feature-section">
+        <ScrollHeadline>
           <h2 className="section-title">
             Spend, Send, &{" "}
             <GhostIcon width={120} height={100} color="#AB9FF2" /> Save
@@ -126,14 +190,15 @@ export default function HomePage() {
           <Link to="/cash" className="see-more-link">
             See more{"\u00A0\u00A0"}↗
           </Link>
-        </div>
+        </ScrollHeadline>
         <CardsSlider sectionData={cashData} />
-      </div>
+      </section>
 
-      {/* 3. Security 섹션 */}
+      {/* 3. Security 섹션 (다크 테마) */}
+      {/* [수정 4] 불필요한 home-container 중첩 제거 및 100vh 래퍼 적용 */}
       <div className="security-dark-wrapper">
-        <div className="home-container">
-          <div className="section-headline">
+        <section className="home-feature-section">
+          <ScrollHeadline>
             <h2 className="section-title">
               Controlled by you,
               <br />
@@ -143,12 +208,13 @@ export default function HomePage() {
             <Link to="/security" className="see-more-link">
               See more{"\u00A0\u00A0"}↗
             </Link>
-          </div>
+          </ScrollHeadline>
           <CardsSlider sectionData={securityData} />
-        </div>
+        </section>
       </div>
 
       {/* 4. Final CTA 섹션 */}
+      {/* [수정 3 & 4] 풀스크린 래퍼 적용 및 QR 이미지 경로 수정 */}
       <section className="final-cta-section">
         <p className="final-cta-sub">
           Trusted by a community of 20+ million users.
@@ -158,16 +224,16 @@ export default function HomePage() {
         <h2 className="final-cta-title">
           Get started.
           <br />
-          Download <GhostIcon width={130} height={110} color="#FFFFFF" />{" "}
+          Download <GhostIcon width={120} height={100} color="#FFFFFF" />{" "}
           Phantom.
         </h2>
-        {/* hero-btn으로 통일 및 QR 팝오버 래퍼 적용 */}
-        <div className="hero-btn-wrapper">
+        {/* hero-btn으로 통일 및 QR 팝오버 래퍼 적용 + ref={ctaWrapperRef} 연결 */}
+        <div className="hero-btn-wrapper" ref={ctaWrapperRef}>
           {isCtaQrOpen && (
             <div className="qr-popover">
               <div className="qr-code-box">
                 <img
-                  src={qrImage}
+                  src="/phantom-qr.png"
                   alt="Phantom Download QR"
                   className="qr-img"
                 />

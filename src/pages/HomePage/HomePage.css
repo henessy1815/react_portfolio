@@ -1,17 +1,28 @@
 .home-page {
   width: 100%;
   overflow-x: hidden;
+  transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  /* 기본 배경 (Trading/Cash 연보라) */
+  background-color: #f4f2fb;
 }
 
-/* 컨테이너 너비: 너무 퍼지지 않게 최적 가로폭 고정 */
-.home-container {
-  width: 100%;
-  max-width: 1400px; /* 원본의 슬림한 좌우 비율 */
+/* ========================================================= */
+/* 0. 메인 Hero 영역 (풀스크린 래퍼 추가 및 margin 충돌 해결) */
+/* ========================================================= */
+/* [수정 1] Hero를 뷰포트(100vh) 정중앙에 배치하는 래퍼 추가 */
+.hero-section-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 32px 40px;
+  box-sizing: border-box;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 32px;
 }
 
 /* 0. 메인 Hero 대형 카드 (가로형 와이드 비율 고정) */
+/* [수정 2] hero-card의 과도한 하단 margin(160px) 제거 -> wrapper가 중앙 정렬 담당 */
 .hero-card {
   position: relative;
   background-color: #0e0d12;
@@ -19,7 +30,7 @@
   width: 100%;
   aspect-ratio: 16 / 9.5; /* 원본 특유의 황금 비율 유지 */
   max-height: 740px;
-  margin: 16px 0 160px;
+  margin: 0; /* [수정: wrapper가 중앙 정렬하므로 불필요한 하단 margin 제거] */
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -84,11 +95,49 @@
   transform: scale(1.03);
 }
 
-/* 섹션 헤드라인 */
+/* ========================================================= */
+/* 1. 공통 섹션 레이아웃 (Trading, Cash, Security) */
+/* ========================================================= */
+/* [수정: 타이틀과 슬라이더가 분리되지 않도록 하나의 섹션 래퍼 스타일 정의] */
+.home-feature-section {
+  width: 100%;
+  padding: 100px 0 140px; /* [수정: 타이틀과 카드가 한눈에 이어지도록 자연스러운 상하 패딩] */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* [수정: 타이틀 영역의 margin/padding 보정 + 페이드업 기본 상태 및 트랜지션 설정] */
 .section-headline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  margin-bottom: 70px;
-  padding-top: 40px;
+  margin-bottom: 90px; /* [수정: 타이틀과 하단 뱃지/카드 간격 90px 설정] */
+  padding: 0 20px;
+  transition:
+    opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* [수정: 진입 전 - 살짝 아래에 투명하게 대기] */
+.section-headline.headline-hidden {
+  opacity: 0;
+  transform: translate3d(0, 36px, 0);
+}
+
+/* [수정: 진입 후 - 제자리로 부드럽게 떠오르며 표시] */
+.section-headline.headline-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* 3. Security 진입 시 다크 테마 전환 클래스 */
+.home-page.theme-security {
+  background-color: #27233a; /* Security 딥 퍼플/네이비 배경 */
+  color: #ffffff;
 }
 
 /* flex 제거 -> 텍스트와 유령 아이콘이 같은 줄에 인라인으로 렌더링 */
@@ -96,9 +145,9 @@
   font-size: 6rem;
   font-weight: 400;
   letter-spacing: -2px;
-  line-height: 1.15;
-  color: #221f33;
-  margin-bottom: 28px;
+  line-height: 1.12;
+  color: #3c315b;
+  margin: 0 0 28px 0; /* [수정: 불필요한 기본 상단 마진 초기화] */
   text-align: center;
 }
 
@@ -118,24 +167,57 @@
   font-size: 20px;
   display: inline-flex;
   align-items: center;
+  text-decoration: none; /* [수정: a 태그 기본 밑줄 제거] */
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease; /* [수정: 호버 트랜지션 추가] */
+}
+
+.see-more-link:hover {
+  transform: scale(1.04);
+  background-color: #ded9fc;
 }
 
 /* Security 다크 래퍼 */
+/* [수정 6] margin-top 제거 및 내부 텍스트/버튼 다크 색상 지원 */
 .security-dark-wrapper {
   background-color: #28243d;
-  padding: 140px 0;
+  width: 100%;
   color: #ffffff;
-  margin-top: 100px;
+  /* [수정: 상단 패딩을 160px로 대폭 확장하여 최상단 보라색 배경 영역 확보] */
+  padding: 160px 0 140px;
+  /* [수정: 화면에 단독으로 꽉 찰 수 있도록 최소 높이 100vh 부여] */
+  min-height: 100vh;
+  transition: background-color 0.6s ease;
+  box-sizing: border-box;
+
+  /* [수정: 부모 컨테이너의 좌우 여백을 무시하고 모니터 좌우 끝까지 100% 확장시키는 확실한 탈출 코드] */
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 .security-dark-wrapper .section-title {
   color: #ffffff;
 }
 
+.security-dark-wrapper .see-more-link {
+  background-color: #3d3759;
+  color: #ffffff;
+}
+
+.security-dark-wrapper .see-more-link:hover {
+  background-color: #4f4773;
+}
+
 /* Final CTA 섹션 */
+/* [수정 7] section-headline-wrapper와 호환되도록 배경색 및 100vh 전체화면 높이 유지 */
 .final-cta-section {
   background-color: #a396e9;
-  min-height: 75vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -143,6 +225,15 @@
   text-align: center;
   color: #38305a;
   padding: 80px 24px;
+  box-sizing: border-box;
+
+  /* [수정: 좌우 꽉 채우기] */
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 .final-cta-sub {
@@ -159,6 +250,7 @@
   letter-spacing: -2px;
   line-height: 1.1;
   margin-bottom: 48px;
+  margin-top: 0;
 }
 
 .final-cta-btn {
@@ -174,6 +266,10 @@
   align-items: center;
   gap: 10px;
   transition: transform 0.2s;
+}
+
+.final-cta-btn:hover {
+  transform: scale(1.03);
 }
 
 /* 버튼과 QR 팝오버를 감싸는 기준점 */

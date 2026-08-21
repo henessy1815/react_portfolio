@@ -3,13 +3,81 @@
   margin-bottom: 180px; /* 섹션 간격 확보 */
 }
 
-/* 상단 뱃지 & 화살표 버튼 영역: 부모 컨테이너 너비 유지 */
+/* 1. 화면에 들어오기 전 (중앙에 포개어진 덱 상태) */
+.slider-container.is-stacked .feature-card {
+  /* 
+    화면 중앙 위치(50vw - 첫 번째 카드 시작 여백 - 카드 너비의 절반)로 모든 카드를 모음
+    카드 너비(460px) + 간격(28px) = 488px
+  */
+  transform: translate3d(
+      calc(
+        (50vw - max(24px, (100vw - 1400px) / 2 + 16px) - 230px) -
+          (var(--card-index) * 488px)
+      ),
+      0,
+      0
+    )
+    /* 오른쪽 뒤로 갈수록 카드들이 층층이 삐져나오도록 미세 각도와 이동 부여 */
+    rotate(calc(var(--card-index) * 1.8deg))
+    scale(calc(1 - var(--card-index) * 0.02));
+
+  opacity: 1;
+  /* 앞 카드가 가장 위로 오도록 z-index 부여 */
+  z-index: calc(20 - var(--card-index));
+  transition:
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease;
+}
+
+/* 2. 화면 진입 시 (좌우로 제자리에 부드럽게 펼쳐진 상태) */
+.slider-container.is-visible .feature-card {
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  opacity: 1;
+  /* 
+    기존 z-index: 1 대신, 
+    앞 카드(인덱스 0)가 가장 높은 레이어를 유지하도록 설정 
+  */
+  z-index: calc(20 - var(--card-index));
+  /* 
+    재생 시간: 1.35s (더 여유롭고 우아한 속도)
+    곡선: cubic-bezier(0.22, 1, 0.36, 1) - 시작은 확실하고 끝은 아주 부드러운 감속
+    카드별 순차 딜레이: 0.09s 간격
+  */
+  transition:
+    transform 1.35s cubic-bezier(0.22, 1, 0.36, 1)
+      calc(var(--card-index) * 0.09s),
+    box-shadow 0.35s ease;
+}
+
+/* 3. 펼쳐진 이후 카드 호버 인터랙션 유지 */
+.slider-container.is-visible .feature-card:hover {
+  transform: translate3d(0, -8px, 0) rotate(-0.8deg) scale(1.015);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  z-index: 30;
+  transition:
+    transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 0.35s ease;
+}
+
+.slider-container.is-visible .feature-card:nth-child(even):hover {
+  transform: translate3d(0, -8px, 0) rotate(0.8deg) scale(1.015);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  z-index: 30;
+  transition:
+    transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 0.35s ease;
+}
+
+/* 1. 상단 뱃지 & 화살표 헤더 영역: 1400px 중앙 컨테이너 라인 기준 정렬 */
 .slider-header {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto 52px;
+  padding: 0 32px;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 56px;
-  padding: 0 4px;
 }
 
 .slider-badge {
@@ -86,10 +154,7 @@
 
 /* 카드 트랙: 컨테이너를 뚫고 화면 좌우 끝(100vw)까지 확장 */
 .cards-track {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  margin-left: -50vw; /* 뷰포트 전체 너비로 탈출 */
+  width: 100%;
   display: flex;
   gap: 28px;
   overflow-x: auto;
@@ -99,7 +164,7 @@
 
   /* 첫 번째 카드가 상단 텍스트/뱃지 시작선에 정렬되도록 좌우 여백 설정 */
   /* (1200px 대신 프로젝트의 home-container max-width 값을 입력하세요) */
-  padding: 10px max(24px, calc((100vw - 1400px) / 2 + 16px)) 30px;
+  padding: 10px max(32px, calc((100% - 1400px) / 2 + 32px)) 40px;
   box-sizing: border-box;
 }
 
@@ -113,7 +178,7 @@
   scroll-behavior: auto; /* 드래그 중 즉각적인 반응을 위해 부드러운 스크롤 해제 */
 }
 
-/* 개별 카드 컨테이너 */
+/* 개별 카드 컨테이너에 하드웨어 가속 추가 */
 .feature-card {
   flex: 0 0 460px;
   height: 620px;
@@ -132,6 +197,9 @@
     transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
     box-shadow 0.35s ease;
   will-change: transform;
+  /* GPU 가속 및 렌더링 최적화 힌트 */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* 홀수 번째 카드 호버: 살짝 왼쪽으로 기울며 튀어오름 */

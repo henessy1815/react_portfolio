@@ -1,12 +1,33 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import "./CardsSlider.css";
 
 export default function CardsSlider({ sectionData }) {
+  const containerRef = useRef(null);
   const scrollRef = useRef(null);
   const isDark = sectionData.theme === "dark";
 
   // 카드가 3장인 섹션(cash 섹션)은 슬라이더 기능 비활성화
   const isStatic = sectionData.id === "cash";
+
+  // [수정 1] 화면 진입 시 펼쳐지는 애니메이션 상태 및 Observer 등록
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.7 }, // 화면에 70% 정도 보였을 때 펼쳐짐 시작
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   // 마우스 드래그 상태 관리
   const [isDragging, setIsDragging] = useState(false);
@@ -109,7 +130,11 @@ export default function CardsSlider({ sectionData }) {
   };
 
   return (
-    <div className={`slider-container ${isStatic ? "static-container" : ""}`}>
+    /* [수정 2] ref={containerRef} 및 is-visible/is-stacked 클래스 분기 */
+    <div
+      ref={containerRef}
+      className={`slider-container ${isStatic ? "static-container" : ""} ${isVisible ? "is-visible" : "is-stacked"}`}
+    >
       {/* 1. 상단 뱃지 및 슬라이더 화살표 */}
       <div className="slider-header">
         <div className={`slider-badge ${isDark ? "dark-badge" : ""}`}>
@@ -169,11 +194,16 @@ export default function CardsSlider({ sectionData }) {
         onMouseUp={handleMouseUpOrLeave}
         onMouseLeave={handleMouseUpOrLeave}
       >
-        {sectionData.cards.map((card) => (
+        {/* [수정 3] index 인자를 받아 --card-index CSS 변수로 전달 */}
+        {sectionData.cards.map((card, index) => (
           <div
             key={card.id}
             className="feature-card"
-            style={{ backgroundColor: card.bgColor, color: card.textColor }}
+            style={{
+              backgroundColor: card.bgColor,
+              color: card.textColor,
+              "--card-index": index,
+            }}
           >
             <p className="card-title">{card.text}</p>
             <div className="card-video-box">

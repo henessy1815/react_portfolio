@@ -51,7 +51,15 @@ export default function Header() {
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
           </button>
-          <button className={styles.downloadBtn}>Download</button>
+          {/* 외부 확장 프로그램 스토어 링크 적용 */}
+          <a
+            href="https://chromewebstore.google.com/detail/phantom/bfnaelmomeimhlpmgjnjophhpkkoljpa"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.downloadBtn}
+          >
+            Download
+          </a>
         </div>
       </div>
     </header>

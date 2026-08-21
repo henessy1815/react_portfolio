@@ -16,14 +16,26 @@
 }
 
 /* 3. 기본 리셋 */
-* {
+/* [수정: 가상 요소까지 포함한 박스 사이징 및 마진 초기화] */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* [수정: html 태그 명시 및 overflow-x: hidden 추가하여 좌우 여백/가로 스크롤 완전 차단] */
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 /* 4. 전역 본문 스타일 */
 body {
+  width: 100%; /* [수정: 너비 100% 명시] */
+  min-height: 100vh; /* [수정: 최소 높이 100vh 명시] */
+  overflow-x: hidden; /* [수정: 가로 넘침 방지] */
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-main);
@@ -59,6 +71,7 @@ select {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden; /* [수정: #root 레벨 가로 넘침 차단] */
 }
 
 a {

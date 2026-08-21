@@ -11,7 +11,7 @@
   */
   transform: translate3d(
       calc(
-        (50vw - max(24px, (100vw - 1400px) / 2 + 16px) - 230px) -
+        (50vw - max(24px, (100vw - 1560px) / 2 + 16px) - 230px) -
           (var(--card-index) * 488px)
       ),
       0,
@@ -68,10 +68,10 @@
     box-shadow 0.35s ease;
 }
 
-/* 1. 상단 뱃지 & 화살표 헤더 영역: 1400px 중앙 컨테이너 라인 기준 정렬 */
+/* 1. 상단 뱃지 & 화살표 헤더 영역: 1560px 중앙 컨테이너 라인 기준 정렬 */
 .slider-header {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1560px;
   margin: 0 auto 52px;
   padding: 0 32px;
   box-sizing: border-box;
@@ -164,7 +164,7 @@
 
   /* 첫 번째 카드가 상단 텍스트/뱃지 시작선에 정렬되도록 좌우 여백 설정 */
   /* (1200px 대신 프로젝트의 home-container max-width 값을 입력하세요) */
-  padding: 10px max(32px, calc((100% - 1400px) / 2 + 32px)) 40px;
+  padding: 10px max(32px, calc((100% - 1560px) / 2 + 32px)) 40px;
   box-sizing: border-box;
 }
 

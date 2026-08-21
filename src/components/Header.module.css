@@ -12,14 +12,14 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-  padding: 18px 0;
+  padding: 18px 1px;
   transition: background-color 0.3s ease;
 }
 
 /* 본문(.home-container)과 동일한 최대 너비 및 여백을 공유하는 내부 래퍼 */
 .innerWrapper {
   width: 100%;
-  max-width: 1400px; /* 본문 max-width와 동일하게 설정 */
+  max-width: 1560px; /* 본문 max-width와 동일하게 설정 */
   margin: 0 auto;
   padding: 0 32px; /* 본문 좌우 여백과 동일 */
   box-sizing: border-box; /* [수정: 패딩으로 인한 너비 초과 방지] */
@@ -48,7 +48,7 @@
 /* 중앙 흰색 플로팅 캡슐 메뉴 */
 .navCapsule {
   background-color: #ffffff;
-  padding: 8px 24px;
+  padding: 20px 40px;
   border-radius: 9999px;
   display: flex;
   align-items: center;
@@ -75,8 +75,8 @@
 }
 
 .searchBtn {
-  width: 44px;
-  height: 44px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   border: none;
   background-color: #ffffff;
@@ -92,7 +92,7 @@
   background-color: #ab9ff2;
   color: #3c315b;
   border: none;
-  padding: 12px 24px;
+  padding: 16px 32px;
   border-radius: 9999px;
   font-weight: 400;
   font-size: 16px;

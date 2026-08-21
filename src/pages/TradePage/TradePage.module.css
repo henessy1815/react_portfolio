@@ -1,0 +1,358 @@
+/* =========================================
+   TradePage 전역 스타일 및 공통 컨테이너
+========================================= */
+.tradePage {
+  width: 100%;
+  background-color: #f4f2fb;
+  color: #3c315b;
+  overflow-x: hidden;
+  /* 고정 헤더(fixed header) 아래로 자연스럽게 시작되도록 상단 패딩 확보 */
+  padding-top: 250px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: 0 48px;
+  box-sizing: border-box;
+}
+
+/* 섹션 공통 헤더 */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 96px;
+}
+
+.sectionTitle {
+  font-size: 96px;
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -1.5px;
+  margin: 0 0 20px;
+}
+
+.sectionDesc {
+  font-size: 24px;
+  color: #86848d;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* =========================================
+   1. Hero 섹션
+========================================= */
+.heroSection {
+  padding: 60px 0 250px;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: 40px;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.heroTitle {
+  font-size: 96px;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  font-weight: 400;
+  margin: 0 0 24px;
+}
+
+.heroSubtitle {
+  font-size: 20px;
+  line-height: 1.5;
+  color: #86848d;
+  margin: 16px 0 0;
+  max-width: 704px;
+}
+
+.heroMedia {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroImg {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* 다운로드 버튼 공통 */
+.downloadBtn {
+  background-color: #fdfcfe;
+  color: #3c315b;
+  border: none;
+  padding: 32px;
+  border-radius: 9999px;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 32px 0 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.downloadBtn:hover {
+  transform: scale(1.03);
+  background-color: #9d8fe9;
+}
+
+/* =========================================
+   2. Discover / 4. More Ways 카드 그리드 (3열)
+========================================= */
+.discoverSection,
+.moreWaysSection {
+  padding: 160px 0 250px;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.featureCard,
+.featureCardLink {
+  /* background-color: #ffffff; */
+  border-radius: 32px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); */
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.featureCardLink:hover,
+.featureCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+}
+
+.cardVideoBox,
+.cardImageBox {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  /* background-color: #ebe7f8; */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardVideo,
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardText {
+  padding: 36px 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardTitle {
+  font-size: 32px;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.cardDesc {
+  font-size: 20px;
+  line-height: 1.5;
+  color: #86848b;
+  margin: 0;
+}
+
+/* =========================================
+   3. Trusted by traders 섹션
+========================================= */
+.trustedSection {
+  padding: 160px 0 250px;
+}
+
+.trustedGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.trustedVideoWrapper {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  background-color: #ffd043;
+  max-width: 720px;
+}
+
+.trustedVideo {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.featureListItem {
+  background-color: #fdfcfe;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.iconCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: #3c315b;
+  color: #fdfcfe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.itemTitle {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0 0 8px;
+  letter-spacing: -0.5px;
+}
+
+.itemDesc {
+  font-size: 20px;
+  line-height: 1.5;
+  color: #86848d;
+  margin: 0;
+}
+
+/* =========================================
+   5. Final CTA 섹션
+========================================= */
+.ctaSection {
+  color: #3c315b;
+  padding: 400px 0;
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: 96px;
+  font-weight: 400;
+  letter-spacing: -2px;
+  margin: 0 0 40px;
+}
+
+/* =========================================
+   QR Popover 공통 스타일
+========================================= */
+.btnWrapper {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qrPopover {
+  position: absolute;
+  bottom: calc(100% + 18px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  padding: 20px 22px 18px;
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 20;
+  white-space: nowrap;
+  animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.qrCodeBox {
+  width: 140px;
+  height: 140px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.qrImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.qrCaption {
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: #3c315b;
+  text-align: center;
+  margin: 0;
+}
+
+/* =========================================
+   반응형 (Mobile & Tablet)
+========================================= */
+@media (max-width: 1024px) {
+  .heroGrid,
+  .trustedGrid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .heroText {
+    align-items: center;
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}

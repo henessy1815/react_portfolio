@@ -10,8 +10,8 @@ export default function Header() {
         <Link to="/" className={styles.logo} aria-label="Phantom Home">
           <svg
             viewBox="0 0 150 30"
-            width="150"
-            height="29"
+            width="152"
+            height="30"
             fill="#38305a" /* 팬텀 시그니처 딥 퍼플 색상 */
           >
             <path
@@ -38,8 +38,8 @@ export default function Header() {
         <div className={styles.rightActions}>
           <button className={styles.searchBtn} aria-label="Search">
             <svg
-              width="20"
-              height="20"
+              width="24"
+              height="24"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

@@ -4,9 +4,26 @@ import styles from "./TradePage.module.css";
 export default function TradePage() {
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [isCtaQrOpen, setIsCtaQrOpen] = useState(false);
+  const [isTrustedVisible, setIsTrustedVisible] = useState(false);
+
+  // [섹션 타이틀별 등장 상태]
+  const [isDiscoverHeaderVisible, setIsDiscoverHeaderVisible] = useState(false);
+  const [isTrustedHeaderVisible, setIsTrustedHeaderVisible] = useState(false);
+  const [isMoreWaysHeaderVisible, setIsMoreWaysHeaderVisible] = useState(false);
+
+  // [섹션별 카드 트리거 상태]
+  const [isDiscoverVisible, setIsDiscoverVisible] = useState(false);
+  const [isMoreWaysVisible, setIsMoreWaysVisible] = useState(false);
 
   const heroWrapperRef = useRef(null);
   const ctaWrapperRef = useRef(null);
+  const listRef = useRef(null);
+  const discoverGridRef = useRef(null);
+  const moreWaysGridRef = useRef(null);
+  // [섹션 타이틀용 Ref]
+  const discoverHeaderRef = useRef(null);
+  const trustedHeaderRef = useRef(null);
+  const moreWaysHeaderRef = useRef(null);
 
   // 팝오버 외부 클릭 시 닫기
   useEffect(() => {
@@ -23,6 +40,84 @@ export default function TradePage() {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // 섹션 타이틀 스크롤 등장 Observer
+  useEffect(() => {
+    const headerCallback = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target === discoverHeaderRef.current)
+            setIsDiscoverHeaderVisible(true);
+          if (entry.target === trustedHeaderRef.current)
+            setIsTrustedHeaderVisible(true);
+          if (entry.target === moreWaysHeaderRef.current)
+            setIsMoreWaysHeaderVisible(true);
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const headerObserver = new IntersectionObserver(headerCallback, {
+      threshold: 0.5,
+    });
+
+    if (discoverHeaderRef.current)
+      headerObserver.observe(discoverHeaderRef.current);
+    if (trustedHeaderRef.current)
+      headerObserver.observe(trustedHeaderRef.current);
+    if (moreWaysHeaderRef.current)
+      headerObserver.observe(moreWaysHeaderRef.current);
+
+    return () => headerObserver.disconnect();
+  }, []);
+
+  // Discover / MoreWays 카드 순차 등장 Observer
+  useEffect(() => {
+    const observerCallback = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target === discoverGridRef.current) {
+            setIsDiscoverVisible(true);
+          }
+          if (entry.target === moreWaysGridRef.current) {
+            setIsMoreWaysVisible(true);
+          }
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.5,
+    });
+
+    if (discoverGridRef.current) observer.observe(discoverGridRef.current);
+    if (moreWaysGridRef.current) observer.observe(moreWaysGridRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Trusted 섹션 featureList 순차 슬라이드업 Observer
+  useEffect(() => {
+    const currentElem = listRef.current;
+    if (!currentElem) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsTrustedVisible(true);
+          observer.unobserve(entry.target); // 한 번 등장 후 관찰 해제
+        }
+      },
+      { threshold: 0.5 },
+    );
+
+    observer.observe(currentElem);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -100,7 +195,11 @@ export default function TradePage() {
       {/* ========================================================= */}
       <section className={styles.discoverSection}>
         <div className={styles.container}>
-          <div className={styles.sectionHeader}>
+          {/* [수정: ref 및 visible 클래스 바인딩] */}
+          <div
+            ref={discoverHeaderRef}
+            className={`${styles.sectionHeader} ${isDiscoverHeaderVisible ? styles.visible : ""}`}
+          >
             <h2 className={styles.sectionTitle}>
               Discover tokens.
               <br />
@@ -111,9 +210,13 @@ export default function TradePage() {
             </p>
           </div>
 
-          <div className={styles.cardGrid}>
-            {/* 카드 1 */}
-            <div className={styles.featureCard}>
+          {/* [수정: ref와 visible 클래스, 인덱스 style 주입] */}
+          <div
+            ref={discoverGridRef}
+            className={`${styles.cardGrid} ${isDiscoverVisible ? styles.visible : ""}`}
+          >
+            {/* 카드 0 (첫 번째: 딜레이 0s) */}
+            <div className={styles.featureCard} style={{ "--index": 0 }}>
               <div className={styles.cardVideoBox}>
                 <video
                   src="https://sanity-proxy-v2.phantom.app/files/3nm6d03a/production/4ca210dc47f05268a1051d660c5f4f973eb55f48.mp4"
@@ -132,8 +235,8 @@ export default function TradePage() {
               </div>
             </div>
 
-            {/* 카드 2 */}
-            <div className={styles.featureCard}>
+            {/* 카드 1 (두 번째: 딜레이 0.15s) */}
+            <div className={styles.featureCard} style={{ "--index": 1 }}>
               <div className={styles.cardVideoBox}>
                 <video
                   src="https://sanity-proxy-v2.phantom.app/files/3nm6d03a/production/be211b6ba6fa6cfa1e21f5c88019a687b0442001.mp4"
@@ -153,8 +256,8 @@ export default function TradePage() {
               </div>
             </div>
 
-            {/* 카드 3 */}
-            <div className={styles.featureCard}>
+            {/* 카드 2 (세 번째: 딜레이 0.3s) */}
+            <div className={styles.featureCard} style={{ "--index": 2 }}>
               <div className={styles.cardVideoBox}>
                 <video
                   src="https://sanity-proxy-v2.phantom.app/files/3nm6d03a/production/a9d884cce5a3ef23641ac69cc9c373de1c096d5e.mp4"
@@ -178,10 +281,15 @@ export default function TradePage() {
 
       {/* ========================================================= */}
       {/* 3. Trusted by traders, made for everyone. 섹션 */}
+      {/* 스크롤 sticky & 순차 슬라이드 업 */}
       {/* ========================================================= */}
       <section className={styles.trustedSection}>
         <div className={styles.container}>
-          <div className={styles.sectionHeader}>
+          {/* [수정: ref 및 visible 클래스 바인딩] */}
+          <div
+            ref={trustedHeaderRef}
+            className={`${styles.sectionHeader} ${isTrustedHeaderVisible ? styles.visible : ""}`}
+          >
             <h2 className={styles.sectionTitle}>
               Trusted by traders,
               <br />
@@ -193,19 +301,30 @@ export default function TradePage() {
           </div>
 
           <div className={styles.trustedGrid}>
-            <div className={styles.trustedVideoWrapper}>
-              <video
-                src="https://sanity-proxy-v2.phantom.app/files/3nm6d03a/production/73c282142e11462b3bfc4f127e41a416f85fc80a.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className={styles.trustedVideo}
-              />
+            {/* 좌측 스티키 비디오 */}
+            <div className={styles.trustedStickyCol}>
+              <div className={styles.trustedVideoWrapper}>
+                <video
+                  src="https://sanity-proxy-v2.phantom.app/files/3nm6d03a/production/73c282142e11462b3bfc4f127e41a416f85fc80a.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className={styles.trustedVideo}
+                />
+              </div>
             </div>
 
-            <div className={styles.featureList}>
-              <div className={styles.featureListItem}>
+            {/* 우측 3단 순차 슬라이드 업 리스트 */}
+            {/* [수정: ref를 featureList에 직접 연결하여 정확한 타이밍에 애니메이션 실행] */}
+            <div
+              ref={listRef}
+              className={`${styles.featureList} ${isTrustedVisible ? styles.visible : ""}`}
+            >
+              <div
+                className={styles.featureListItem}
+                style={{ "--delay": "120ms" }}
+              >
                 <div className={styles.iconCircle}>
                   <svg
                     width="24"
@@ -230,7 +349,10 @@ export default function TradePage() {
                 </div>
               </div>
 
-              <div className={styles.featureListItem}>
+              <div
+                className={styles.featureListItem}
+                style={{ "--delay": "360ms" }}
+              >
                 <div className={styles.iconCircle}>
                   <svg
                     width="24"
@@ -252,7 +374,10 @@ export default function TradePage() {
                 </div>
               </div>
 
-              <div className={styles.featureListItem}>
+              <div
+                className={styles.featureListItem}
+                style={{ "--delay": "600ms" }}
+              >
                 <div className={styles.iconCircle}>
                   <svg
                     width="24"
@@ -284,7 +409,11 @@ export default function TradePage() {
       {/* ========================================================= */}
       <section className={styles.moreWaysSection}>
         <div className={styles.container}>
-          <div className={styles.sectionHeader}>
+          {/* [수정: ref 및 visible 클래스 바인딩] */}
+          <div
+            ref={moreWaysHeaderRef}
+            className={`${styles.sectionHeader} ${isMoreWaysHeaderVisible ? styles.visible : ""}`}
+          >
             <h2 className={styles.sectionTitle}>
               Trade more ways,
               <br />
@@ -296,9 +425,12 @@ export default function TradePage() {
             </p>
           </div>
 
-          <div className={styles.cardGrid}>
-            {/* 카드 1 */}
-            <div className={styles.featureCard}>
+          <div
+            ref={moreWaysGridRef}
+            className={`${styles.cardGrid} ${isMoreWaysVisible ? styles.visible : ""}`}
+          >
+            {/* 카드 0 */}
+            <div className={styles.featureCard} style={{ "--index": 0 }}>
               <div className={styles.cardImageBox}>
                 <img
                   src="https://sanity-proxy-v2.phantom.app/images/3nm6d03a/production/b46b974eecd86581b4bcf893c9122f08c71587f6-523x523.svg"
@@ -315,8 +447,8 @@ export default function TradePage() {
               </div>
             </div>
 
-            {/* 카드 2 */}
-            <div className={styles.featureCard}>
+            {/* 카드 1 */}
+            <div className={styles.featureCard} style={{ "--index": 1 }}>
               <div className={styles.cardImageBox}>
                 <img
                   src="https://sanity-proxy-v2.phantom.app/images/3nm6d03a/production/0cac8e67e258774dc3c8447f3695db0fa3f8b657-523x523.svg"
@@ -333,8 +465,8 @@ export default function TradePage() {
               </div>
             </div>
 
-            {/* 카드 3 */}
-            <div className={styles.featureCard}>
+            {/* 카드 2 */}
+            <div className={styles.featureCard} style={{ "--index": 2 }}>
               <div className={styles.cardImageBox}>
                 <img
                   src="https://sanity-proxy-v2.phantom.app/images/3nm6d03a/production/cc9c648b80bbf1427f71edd531197fc22582f1d9-2091x2091.png"

@@ -1,0 +1,309 @@
+/* =========================================
+   SecurityPage 전역 다크 테마 설정
+========================================= */
+.securityPage {
+  width: 100%;
+  background-color: #3c315d; /* 팬텀 시큐리티 고유의 딥 다크 네이비 */
+  color: #ffffff;
+  overflow-x: hidden;
+  font-family: inherit;
+  padding-top: 140px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 48px;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   공통 섹션 레이아웃 및 타이틀
+========================================= */
+.featureSection {
+  padding: 120px 0 160px;
+  position: relative;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 80px;
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  will-change: transform, opacity;
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sectionHeader.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.sectionTitle {
+  font-size: 96px;
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -2px;
+  margin: 0;
+  color: #ffffff;
+}
+
+/* =========================================
+   캐러셀 헤더 (카테고리명 & 이전/다음 버튼)
+========================================= */
+.carouselHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.categoryBadge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+}
+
+.categoryTitle {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.navBtnGroup {
+  display: flex;
+  gap: 12px;
+}
+
+.navBtn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navBtn:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.navBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   카드 트랙 및 카드 공통
+========================================= */
+.cardTrackWrapper {
+  width: 100%;
+  overflow: visible;
+}
+
+.cardTrack {
+  display: flex;
+  gap: 32px;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* 미디어(비디오) 카드 */
+.mediaCard {
+  min-width: 408px;
+  max-width: 408px;
+  background-color: #2c2250;
+  border-radius: 32px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.mediaCard:hover {
+  transform: translateY(-6px);
+}
+
+.cardText {
+  padding: 32px 28px 20px;
+}
+
+.cardText p {
+  font-size: 20px;
+  line-height: 1.45;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+}
+
+.videoBox {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.cardVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 텍스트 링크 액션 카드 */
+.textActionCard {
+  min-width: 408px;
+  max-width: 408px;
+  min-height: 480px;
+  background-color: #2c2250;
+  border-radius: 32px;
+  padding: 40px 32px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.textActionCard:hover {
+  transform: translateY(-6px);
+}
+
+.actionCardIcon {
+  color: #ab9ff2;
+}
+
+.actionCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.actionCardTitle {
+  font-size: 28px;
+  font-weight: 500;
+  margin: 0 0 12px;
+  color: #ffffff;
+}
+
+.actionCardDesc {
+  font-size: 18px;
+  line-height: 1.5;
+  color: #86848d;
+  margin: 0;
+}
+
+.actionCardBtn {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #3c315b;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 16px 28px;
+  border-radius: 9999px;
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.actionCardBtn:hover {
+  background-color: #ab9ff2;
+  transform: scale(1.02);
+}
+
+/* =========================================
+   4. Final Support CTA 섹션
+========================================= */
+.finalSupportCtaSection {
+  padding: 160px 0 200px;
+  text-align: center;
+  background-color: #3c315d;
+}
+
+.ctaContent {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ctaContent.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.ctaSubtitle {
+  font-size: 22px;
+  color: #ab9ff2;
+  margin: 0 0 16px;
+  font-weight: 400;
+}
+
+.ctaTitle {
+  font-size: 96px;
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -2px;
+  margin: 0 0 40px;
+  color: #ffffff;
+}
+
+.chatBtn {
+  display: inline-block;
+  background-color: #ab9ff2;
+  color: #3c315b;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 24px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.chatBtn:hover {
+  transform: scale(1.03);
+  background-color: #ffffff;
+}
+
+/* =========================================
+   반응형 (Mobile & Tablet)
+========================================= */
+@media (max-width: 1024px) {
+  .sectionTitle,
+  .ctaTitle {
+    font-size: 64px;
+  }
+
+  .mediaCard,
+  .textActionCard {
+    min-width: 320px;
+    max-width: 320px;
+  }
+
+  .cardTrackWrapper {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .cardTrackWrapper::-webkit-scrollbar {
+    display: none;
+  }
+}

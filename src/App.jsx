@@ -4,7 +4,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import HomePage from "./pages/HomePage/HomePage";
 import TradePage from "./pages/TradePage/TradePage";
 import CashPage from "./pages/CashPage/CashPage";
-import SecurityPage from "./pages/SecurityPage";
+import SecurityPage from "./pages/SecurityPage/SecurityPage";
 
 export default function App() {
   return (

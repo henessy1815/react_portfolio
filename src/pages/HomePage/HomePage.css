@@ -14,7 +14,7 @@
 
 /* 3. Security 진입 시: dark theme */
 .home-page.theme-dark {
-  background-color: #28243d;
+  background-color: #3c315b;
   color: #fffdf8;
 }
 
@@ -33,7 +33,7 @@
 
 /* 4. Final CTA 진입 시: purple theme */
 .home-page.theme-purple {
-  background-color: #a396e9;
+  background-color: #ab9ff2;
 }
 
 .home-page.theme-purple .final-cta-title {
@@ -235,7 +235,7 @@
   opacity: 0.9;
   margin-bottom: 28px;
   line-height: 1.6;
-  color: #28243d;
+  color: #3c315b;
 }
 
 .final-cta-title {
@@ -245,7 +245,7 @@
   line-height: 1.1;
   margin-bottom: 48px;
   margin-top: 0;
-  color: #28243d;
+  color: #3c315b;
 }
 
 .final-cta-btn {

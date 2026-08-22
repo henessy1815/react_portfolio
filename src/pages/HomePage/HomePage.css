@@ -1,9 +1,53 @@
 .home-page {
   width: 100%;
   overflow-x: hidden;
-  transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  /* 기본 배경 (Trading/Cash 연보라) */
+  /* [0.4초 동안 배경색이 순식간에 매끄럽게 물드는 트랜지션] */
+  transition:
+    background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.45s ease;
+}
+
+/* 1 & 2 섹션 기본: light theme */
+.home-page.theme-light {
   background-color: #f4f2fb;
+}
+
+/* 3. Security 진입 시: dark theme */
+.home-page.theme-dark {
+  background-color: #28243d;
+  color: #fffdf8;
+}
+
+.home-page.theme-dark .section-title {
+  color: #fffdf8;
+}
+
+.home-page.theme-dark .see-more-link {
+  background-color: #e2dff2;
+  color: #3c315b;
+}
+
+.home-page.theme-dark .see-more-link:hover {
+  background-color: #4f4773;
+}
+
+/* 4. Final CTA 진입 시: purple theme */
+.home-page.theme-purple {
+  background-color: #a396e9;
+}
+
+.home-page.theme-purple .final-cta-title {
+  color: #3c315b;
+}
+
+.home-page.theme-purple .final-cta-sub {
+  color: #645899;
+}
+
+/* 각 개별 섹션 배경은 부모 색상을 따르도록 투명 처리 */
+.home-feature-section,
+.final-cta-section {
+  background-color: transparent !important;
 }
 
 /* ========================================================= */
@@ -15,7 +59,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 100px 32px 40px;
+  padding: 100px 48px 40px;
   box-sizing: border-box;
   max-width: 1560px;
   margin: 0 auto;
@@ -29,7 +73,7 @@
   border-radius: 36px;
   width: 100%;
   aspect-ratio: 16 / 9.5; /* 원본 특유의 황금 비율 유지 */
-  max-height: 740px;
+  max-height: 794px;
   margin: 0; /* [수정: wrapper가 중앙 정렬하므로 불필요한 하단 margin 제거] */
   overflow: hidden;
   display: flex;
@@ -102,6 +146,7 @@
 .home-feature-section {
   width: 100%;
   padding: 100px 0 140px; /* [수정: 타이틀과 카드가 한눈에 이어지도록 자연스러운 상하 패딩] */
+  margin: 100px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -114,30 +159,24 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 90px; /* [수정: 타이틀과 하단 뱃지/카드 간격 90px 설정] */
+  margin-bottom: 200px; /* [수정: 타이틀과 하단 뱃지/카드 간격 90px 설정] */
   padding: 0 20px;
+  will-change: opacity, transform;
   transition:
     opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
     transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
 }
 
 /* [수정: 진입 전 - 살짝 아래에 투명하게 대기] */
 .section-headline.headline-hidden {
   opacity: 0;
-  transform: translate3d(0, 36px, 0);
+  transform: translate3d(0, 36px, 0) scale(0.9);
 }
 
 /* [수정: 진입 후 - 제자리로 부드럽게 떠오르며 표시] */
 .section-headline.headline-visible {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-/* 3. Security 진입 시 다크 테마 전환 클래스 */
-.home-page.theme-security {
-  background-color: #27233a; /* Security 딥 퍼플/네이비 배경 */
-  color: #ffffff;
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 /* flex 제거 -> 텍스트와 유령 아이콘이 같은 줄에 인라인으로 렌더링 */
@@ -178,62 +217,17 @@
   background-color: #ded9fc;
 }
 
-/* Security 다크 래퍼 */
-/* [수정 6] margin-top 제거 및 내부 텍스트/버튼 다크 색상 지원 */
-.security-dark-wrapper {
-  background-color: #28243d;
-  width: 100%;
-  color: #ffffff;
-  /* [수정: 상단 패딩을 160px로 대폭 확장하여 최상단 보라색 배경 영역 확보] */
-  padding: 160px 0 140px;
-  /* [수정: 화면에 단독으로 꽉 찰 수 있도록 최소 높이 100vh 부여] */
-  min-height: 100vh;
-  transition: background-color 0.6s ease;
-  box-sizing: border-box;
-
-  /* [수정: 부모 컨테이너의 좌우 여백을 무시하고 모니터 좌우 끝까지 100% 확장시키는 확실한 탈출 코드] */
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
-
-.security-dark-wrapper .section-title {
-  color: #ffffff;
-}
-
-.security-dark-wrapper .see-more-link {
-  background-color: #3d3759;
-  color: #ffffff;
-}
-
-.security-dark-wrapper .see-more-link:hover {
-  background-color: #4f4773;
-}
-
 /* Final CTA 섹션 */
-/* [수정 7] section-headline-wrapper와 호환되도록 배경색 및 100vh 전체화면 높이 유지 */
 .final-cta-section {
-  background-color: #a396e9;
-  min-height: 100vh;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #38305a;
-  padding: 80px 24px;
+  padding: 80px 24px 120px;
   box-sizing: border-box;
-
-  /* [수정: 좌우 꽉 채우기] */
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  margin-bottom: 200px;
 }
 
 .final-cta-sub {
@@ -241,7 +235,7 @@
   opacity: 0.9;
   margin-bottom: 28px;
   line-height: 1.6;
-  color: #645899;
+  color: #28243d;
 }
 
 .final-cta-title {
@@ -251,10 +245,11 @@
   line-height: 1.1;
   margin-bottom: 48px;
   margin-top: 0;
+  color: #28243d;
 }
 
 .final-cta-btn {
-  background-color: #e2dffe;
+  background-color: #fdfcfe;
   color: #3c315b;
   border: none;
   padding: 32px 32px;

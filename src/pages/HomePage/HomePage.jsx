@@ -11,18 +11,21 @@ function ScrollHeadline({ children }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const headlineElem = headlineRef.current;
+    if (!headlineElem) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          // 한 번 등장 후 관찰 해제하여 부드러운 성능 보장
+          observer.unobserve(entry.target);
         }
       },
       { threshold: 0.5 }, // 화면에 50% 보일 때 등장
     );
 
-    if (headlineRef.current) {
-      observer.observe(headlineRef.current);
-    }
+    observer.observe(headlineElem);
     return () => observer.disconnect();
   }, []);
 
@@ -45,9 +48,15 @@ export default function HomePage() {
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [isCtaQrOpen, setIsCtaQrOpen] = useState(false);
 
+  // [수정: 배경 테마 상태 관리 ('light' | 'dark' | 'purple')]
+  const [theme, setTheme] = useState("light");
+
   // [수정: 외부 클릭 감지를 위한 ref 선언]
   const heroWrapperRef = useRef(null);
   const ctaWrapperRef = useRef(null);
+
+  const securityRef = useRef(null);
+  const ctaSectionRef = useRef(null);
 
   // [수정: 팝오버 외부 클릭 시 팝업 닫기 이벤트 리스너 등록]
   useEffect(() => {
@@ -69,8 +78,42 @@ export default function HomePage() {
     };
   }, []);
 
+  // [수정: 스크롤 위치에 따라 테마를 순식간에 전환하는 Observer]
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const securityElem = securityRef.current;
+      const ctaElem = ctaSectionRef.current;
+
+      if (!securityElem || !ctaElem) return;
+
+      // 각 섹션의 절대 상단 위치 (화면 상단 기준)
+      const securityTop = securityElem.offsetTop - window.innerHeight * 0.75;
+      const ctaTop = ctaElem.offsetTop - window.innerHeight * 0.75;
+
+      if (scrollY >= ctaTop) {
+        setTheme("purple");
+      } else if (scrollY >= securityTop) {
+        setTheme("dark");
+      } else {
+        setTheme("light");
+      }
+    };
+
+    // 스크롤 이벤트 등록
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // [새로고침 시 현재 스크롤 위치 기준으로 즉시 1회 실행]
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="home-page">
+    // [수정 : theme 상태에 따라 클래스 동적 부여]
+    <div className={`home-page theme-${theme}`}>
       {/* ========================================================= */}
       {/* 0. 메인 Hero 영역 (풀스크린 중앙 정렬 래퍼 추가) */}
       {/* ========================================================= */}
@@ -194,28 +237,25 @@ export default function HomePage() {
         <CardsSlider sectionData={cashData} />
       </section>
 
-      {/* 3. Security 섹션 (다크 테마) */}
+      {/* 3. Security 섹션 (dark 테마 ref 바인딩) */}
       {/* [수정 4] 불필요한 home-container 중첩 제거 및 100vh 래퍼 적용 */}
-      <div className="security-dark-wrapper">
-        <section className="home-feature-section">
-          <ScrollHeadline>
-            <h2 className="section-title">
-              Controlled by you,
-              <br />
-              secured <GhostIcon width={120} height={100} color="#AB9FF2" /> by
-              us
-            </h2>
-            <Link to="/security" className="see-more-link">
-              See more{"\u00A0\u00A0"}↗
-            </Link>
-          </ScrollHeadline>
-          <CardsSlider sectionData={securityData} />
-        </section>
-      </div>
+      <section className="home-feature-section" ref={securityRef}>
+        <ScrollHeadline>
+          <h2 className="section-title">
+            Controlled by you,
+            <br />
+            secured <GhostIcon width={120} height={100} color="#AB9FF2" /> by us
+          </h2>
+          <Link to="/security" className="see-more-link">
+            See more{"\u00A0\u00A0"}↗
+          </Link>
+        </ScrollHeadline>
+        <CardsSlider sectionData={securityData} />
+      </section>
 
-      {/* 4. Final CTA 섹션 */}
+      {/* 4. Final CTA 섹션 (purple 테마 ref 바인딩) */}
       {/* [수정 3 & 4] 풀스크린 래퍼 적용 및 QR 이미지 경로 수정 */}
-      <section className="final-cta-section">
+      <section className="final-cta-section" ref={ctaSectionRef}>
         <p className="final-cta-sub">
           Trusted by a community of 20+ million users.
           <br />
@@ -227,6 +267,7 @@ export default function HomePage() {
           Download <GhostIcon width={120} height={100} color="#FFFFFF" />{" "}
           Phantom.
         </h2>
+
         {/* hero-btn으로 통일 및 QR 팝오버 래퍼 적용 + ref={ctaWrapperRef} 연결 */}
         <div className="hero-btn-wrapper" ref={ctaWrapperRef}>
           {isCtaQrOpen && (

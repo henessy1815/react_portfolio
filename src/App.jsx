@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import ScrollToTop from "./components/ScrollToTop";
 import HomePage from "./pages/HomePage/HomePage";
 import TradePage from "./pages/TradePage/TradePage";
-import CashPage from "./pages/CashPage";
+import CashPage from "./pages/CashPage/CashPage";
 import SecurityPage from "./pages/SecurityPage";
 
 export default function App() {
